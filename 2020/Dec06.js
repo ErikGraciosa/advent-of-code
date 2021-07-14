@@ -95,3 +95,4 @@ uniqueChars.forEach(set => {
 
 console.log(counter); //answer is 6662
 
+//Part 2 below
