@@ -61,6 +61,10 @@ const columnDecoder = {
   RRL: 6,
   RRR: 7
 }
+
+//forpart 2
+const listOfSeatNumbers = [];
+
 trimmedData.forEach(seat => {
   let lowestRow = 0;
   let highestRow = 127;
@@ -82,6 +86,7 @@ trimmedData.forEach(seat => {
   if(calculatedId > largestId){
     largestId = calculatedId;
   }
+  listOfSeatNumbers.push(calculatedId);
 });
 
 console.log(largestId) //1792 too high, right answer is 947.
@@ -95,4 +100,16 @@ console.log(largestId) //1792 too high, right answer is 947.
 
 // What is the ID of your seat?
 
+//numbers result in a continuous line, find the number missing in the sequence.
+//push each number to an array, then sort low to high and then validate that every next number is +1, 
 
+const sortedList = listOfSeatNumbers.sort((a, b) => a - b);
+console.log(sortedList);
+
+sortedList.forEach((num, index) => {
+  if(num + 1 != sortedList[index + 1]){
+    console.log(num, sortedList[index + 1])
+  }
+})
+
+//correct answer to part 2 is 636
