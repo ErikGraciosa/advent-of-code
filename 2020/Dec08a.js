@@ -61,42 +61,50 @@ const trimmedData = data.map(instruction => instruction.substr(0, instruction.le
 
 //change to tuple
 const instructionTuple = trimmedData.map(instruction => instruction.split(' '));
-console.log(instructionTuple)
+instructionTuple.splice(instructionTuple.length - 1, 1)
 
-const indexList = [];
-let acc = 0;
-let currentIndex = 0;
 
-while(indexList.includes(currentIndex) != true) {
-  indexList.push(currentIndex);
-  let [instruction, instructionValue] = instructionTuple[currentIndex];
-  const valueOnly = Number(instructionValue.slice(1));
-  const sign = instructionValue[0];
-  console.log(valueOnly, sign)
-
-  if(instruction === 'acc'){
-    if(sign === '+'){
-      acc = acc + valueOnly;
+const accCalc = (inputTuples) => {
+  const indexList = [];
+  let acc = 0;
+  let currentIndex = 0;
+  
+  while(indexList.includes(currentIndex) != true) {
+    indexList.push(currentIndex);
+    let [instruction, instructionValue] = inputTuples[currentIndex];
+    const valueOnly = Number(instructionValue.slice(1));
+    const sign = instructionValue[0];
+    console.log(currentIndex, sign, valueOnly)
+  
+    if(instruction === 'acc'){
+      if(sign === '+'){
+        acc = acc + valueOnly;
+        currentIndex = currentIndex + 1;
+      }
+      if(sign === '-'){
+        acc = acc - valueOnly;
+        currentIndex = currentIndex + 1;
+      }
+    }
+    if(instruction === 'jmp'){
+      
+      if(sign === '+'){
+        currentIndex = currentIndex + valueOnly;
+      }
+      if(sign === '-'){
+        currentIndex = currentIndex - valueOnly;
+      }
+    }
+    if(instruction === 'nop'){
+      
       currentIndex = currentIndex + 1;
     }
-    if(sign === '-'){
-      acc = acc - valueOnly;
-      currentIndex = currentIndex + 1;
-    }
   }
-  if(instruction === 'jmp'){
-    if(sign === '+'){
-      currentIndex = currentIndex + valueOnly;
-    }
-    if(sign === '-'){
-      currentIndex = currentIndex - valueOnly;
-    }
-  }
-  if(instruction === 'nop'){
-    currentIndex = currentIndex + 1;
-  }
+  return console.log(acc) //ANSWER IS 1217 for part 1.
 }
-console.log(acc) //ANSWER IS 1217
+
+accCalc(instructionTuple)
+
 
 
 // //part 2
@@ -133,3 +141,40 @@ console.log(acc) //ANSWER IS 1217
 // After the last instruction (acc +6), the program terminates by attempting to run the instruction below the last instruction in the file. With this change, after the program terminates, the accumulator contains the value 8 (acc +1, acc +1, acc +6).
 
 // Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp). What is the value of the accumulator after the program terminates?
+
+//finding the key, need to get to 66 and change to jmp in order to get to index 181 and jmp to end.
+
+// instructionTuple.forEach((tuple, index) => {
+  
+//   let [instruction, instructionValue] = tuple;
+//   const valueOnly = Number(instructionValue.slice(1));
+//   const sign = instructionValue[0];
+//   if(sign === '+' && index + valueOnly > 170 && index + valueOnly < 190){
+//     console.log(tuple, index, valueOnly + index)
+//   }
+//   if(sign === '-' && index - valueOnly > 170 && index - valueOnly < 190){
+//     console.log(tuple, index, index - valueOnly)
+//   }
+// });
+
+//index 66 needs to change to a jmp from nop, then calculate the acc, in order to get to index 181 and jump to end of list.
+console.log(instructionTuple[66])
+let moddedInstructionTuple = instructionTuple;
+moddedInstructionTuple[66][0] = 'jmp';
+console.log(moddedInstructionTuple[66])
+
+accCalc(moddedInstructionTuple)
+//this doesn't work after modding index 66, also wouldn't have worked because of infinite loop of the while statement since we want terminate at end.
+
+//try changing 270 to a nop
+
+instructionTuple.forEach((tuple, index) => {
+  let [instruction, instructionValue] = tuple;
+  const valueOnly = Number(instructionValue.slice(1));
+  const sign = instructionValue[0];
+  if(index + valueOnly > 270 && index + valueOnly < 275 || index - valueOnly < 275 && index - valueOnly > 270) {
+    console.log(index, instruction, sign, valueOnly);
+  }
+});
+
+//how to get to 181 index?
