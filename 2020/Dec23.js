@@ -74,24 +74,32 @@
 // Your puzzle input is 962713854.
 
 
-const input = 962713854;
-const turns = 100
+const input = '962713854';
 
-const solveCrab = (input, turns) => {
-  let currentTurn = 0;
+const linkedList = [];
 
-  let cupList = input.split('');
-  let currentCup = cupList[0];
+input.split('').forEach((num, index, array) => {
+  if(index === input.length - 1){
+    return linkedList.push([num, array[0]]);
+  }
+  linkedList.push([num, (array[index + 1])]);
+});
 
-  //pick up the three cups,
-
-  //select the destination cup (currentVal - 1)
-
-  //put the cups CW of the destination cup
-
-  //next new current cup is 1 cup CW to current cup
-  let afterTurnOrder = ''
+console.log(linkedList);
 
 
-  console.log(afterTurnOrder);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
