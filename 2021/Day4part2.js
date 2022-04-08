@@ -13,7 +13,7 @@ let data = readFile.split('\r\n\r\n');
 let newdata = data.join('\r\n');
 
 const singleLines = newdata.split('\r\n');
-console.log(singleLines[0])
+
 let allBingoBoards = [];
 
 for(let i = 0; i < singleLines.length; i = i + 5) {
@@ -75,7 +75,14 @@ const checkValuesForXs = (arr) => {
 
 //Calc final score
 const calcFinalScore = (board, numberJustCalled) => {
+  console.log(board)
   let calculatedScore = 0;
+  board.forEach(el => {
+    if(!el.includes('x')) {
+      calculatedScore = calculatedScore + Number(el);
+    }
+  });
+  calculatedScore = calculatedScore * numberJustCalled;
   return calculatedScore;
 }
 
@@ -83,36 +90,26 @@ const calcFinalScore = (board, numberJustCalled) => {
 let bingoFound = false;
 let winningBoard;
 let finalNumber;
+let winningBoards = [];
 
 numbersArray.forEach(calledNum => {
   allBingoBoards.forEach((board, i) => {
     board.forEach((boardNumber, j) => {
-      if(calledNum === boardNumber && bingoFound === false){
+      if(calledNum === boardNumber && !winningBoards.includes(i)) {
         allBingoBoards[i][j] = allBingoBoards[i][j].concat('x');
         //Need to add a check if the horizontal or vertical line with this number is a bingo
         if(checkHorizontalBingo(board, j) || checkVerticalBingo(board, j)){
-          bingoFound = true;
           winningBoard = i;
           finalNumber = calledNum;
+          winningBoards.push(i);
         }
       }
     })
   })
 });
 
-console.log(allBingoBoards);
-console.log(`Winning board ${winningBoard}`);
-console.log(allBingoBoards[60]);
+console.log(winningBoards)
 console.log(`Final number ${finalNumber}`)
-
-let total = 0;
-allBingoBoards[60].forEach(el => {
-  if(!el.includes('x')) {
-    total = total + Number(el);
-  }
-})
-console.log(`Total ${total}`);
-console.log(`Final score ${total * finalNumber}`)
 
 //first guess of 15432 too low
 //second guess too low 41268, bug in horizontal checks.
@@ -120,3 +117,10 @@ console.log(`Final score ${total * finalNumber}`)
 
 //PART 2
 //Update for finding the last board to get a bingo
+const newTotal = calcFinalScore(allBingoBoards[21], 6)
+console.log(`new total calc ${newTotal}`);
+
+console.log(winningBoards.pop())
+console.log(winningBoards.length)
+
+//Not right answer, too high 3576
