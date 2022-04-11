@@ -7,13 +7,10 @@ const inputData = readFile.split('\r\n');
 const coordinateStrings = inputData.map(str => str.replace(' -> ', ','));
 const coordinates = coordinateStrings.map(str => str.split(','));
 
-
-
-//console.log(coordinates.length);
-
 //Evaluate only vertical or horizontal lines
 //Count the number of intersections of each line
 
+//Filter out only vertical and horizontal
 const orthogonalLines = coordinates.filter(arr => {
   let evaluation = false;
   for(let i = 0; i < arr.length; i++) {
@@ -26,13 +23,7 @@ const orthogonalLines = coordinates.filter(arr => {
   return evaluation;
 });
 
-//console.log(orthogonalLines);
-
-//Count number of overlapping lines.
-// const emptyArr = new Array(1000).fill(0);
-// let workingMatrix = new Array(1000).fill(new Array(1000).fill(0));
-// let dummyMatrix = workingMatrix;
-
+//Filling matrix with values
 const workingMatrix = [];
 
 for(let i = 0; i < 1000; i++) {
@@ -43,19 +34,22 @@ for(let i = 0; i < 1000; i++) {
   workingMatrix.push(dummyArr);
 }
 
-// Start adding each line as points in the empty matrix
+// Start adding each line as points in the empty matrix any value greater than 1 is where overlaps occur
 orthogonalLines.forEach(line => {
   const x1 = Number(line[0]);
   const y1 = Number(line[1]);
   const x2 = Number(line[2]);
   const y2 = Number(line[3]);
   //update vertical lines
+  console.log(x1, y1, x2, y2);
   if(x1 === x2 && y1 < y2) {
     for(let i = y1; i <= y2; i++) {
+      
       workingMatrix[x1][i]++;
     }
   } else if(x1 === x2 && y1 > y2) {
-    for(let i = y2; i >= y1; i--) {
+    for(let i = y2; i <= y1; i++) {
+      console.log(x1, i);
       workingMatrix[x1][i]++;
     }
   } else if(y1 === y2 && x1 < x2) {
@@ -63,13 +57,13 @@ orthogonalLines.forEach(line => {
       workingMatrix[i][y1]++;
     }
   } else if(y1 === y2 && x1 > x2) {
-    for(let i = x2; i >= x1; i--) {
+    for(let i = x2; i <= x1; i++) {
       workingMatrix[i][y1]++;
     }
   }
 });
 
-console.log(workingMatrix);
+// console.log(workingMatrix);
 
 //Find how many values of the matrix are greater than 1
 let countIntersections = 0;
