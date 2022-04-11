@@ -20,18 +20,10 @@ const processOneDay = (array) => {
   for(let i = 0; i < array.length; i++) {
     if(array[i] === 0){
       fishToAdd++;
-    }
-  }
-
-
-  //Process the fish
-  for(let i = 0; i < array.length; i++) {
-    if(array[i] === 0){
       array[i] = 6;
     } else {
       array[i]--;
     }
-    
   }
 
   //Add fish to the array
@@ -41,11 +33,17 @@ const processOneDay = (array) => {
   }
   return array;
 }
-console.log(laternfish);
+
 for(let i = 0; i < DAYS; i++) {
   processOneDay(laternfish);
-  console.log(laternfish)
 }
 
 console.log(laternfish.length)
 //Guess of 3300 too low
+//377263 right answer
+
+//Part 2, how many fish if 256 days,
+//Has issues with # Fatal error in , line 0
+//# Fatal JavaScript invalid size error 144230630
+
+
