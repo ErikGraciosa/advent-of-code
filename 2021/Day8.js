@@ -6,7 +6,6 @@ const inputData = readFile.split('\r\n');
 const readings = inputData.map(str => str.split('|')[1].trim());
 console.log(inputData);
 
-const readingNumberOutputs = [];
 let numberCounter = 0;
 
 readings.forEach(reading => {
@@ -22,7 +21,7 @@ readings.forEach(reading => {
 });
 
 //console.log(numberCounter)
-//Example input
+//Example input, manually working out how to find other values based on known information.
 //be -- 1
 //cfbegad -- 8
 //cbdgef -- 9 b/c it is 5 + an extra segment 
@@ -127,6 +126,14 @@ const sortedReadings = (inputString) => {
   const sortedReadings = scrambles.map(el => el.split('').sort().join(''));
   return sortedReadings;
 }
+const includesFive = (scrambleString, fiveSegment) => {
+  if(fiveSegment === undefined) {
+    return false;
+  }
+  const fiveSegments = fiveSegment.split('');
+  const segmentsToCompare = scrambleString.split('');
+  return fiveSegments.every(el => segmentsToCompare.includes(el));
+} 
 
 //Example input string 'bgafcde gfcd agc ebdgac adfceb bafeg efgca cgdfae cg ecadf | fabgced gc agc cdfg'
 const solvedScramble = (inputString) => {
@@ -185,36 +192,19 @@ const solvedScramble = (inputString) => {
     counter++;
   }
 
-  // console.log(segmentScrambles, '|', reading, decoder);
-
   let unscrambledValue = Number(reading.map(el => decoder[el]).join(''));
-  // console.log(decoder);
   return unscrambledValue;
 }
 
-const includesFive = (scrambleString, fiveSegment) => {
-  if(fiveSegment === undefined) {
-    return false;
-  }
-  const fiveSegments = fiveSegment.split('');
-  const segmentsToCompare = scrambleString.split('');
-  return fiveSegments.every(el => segmentsToCompare.includes(el));
-} 
 
-//testing includesFive
-//console.log(includesFive('asdqf', 'asqd'));
-
-// console.log(solvedScramble(inputData[0]));
-
+//Add up all decoded readings
 let totalOutputValues = 0;
-
 for(let i = 0; i < inputData.length; i++) {
   const currentReadingValue = solvedScramble(inputData[i]);
-  // console.log(currentReadingValue);
   totalOutputValues = totalOutputValues + currentReadingValue;
 }
 
-console.log(totalOutputValues);
-// console.log(solvedScramble(inputData[inputData.length - 7]));
+console.log(`Total sum of decoded outputs: ${totalOutputValues}`);
 
 //First guess 788322 too low.
+//Correct answer 994266, found bug in conditional statement prior to definding decoder.f and decoder.c
