@@ -116,3 +116,7 @@ console.log(totalRisk);
 //577 is right answer, needed to use nullish coalescing operator ?? not ||
 
 //Part 2 solve for basins
+//Each low point is a part of a basin
+//9s aren't a part of any basin
+//Basins are locations that eventually flow downwards
+//Find the three largest basins and multiply their sizes together.
