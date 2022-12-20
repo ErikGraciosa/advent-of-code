@@ -25,12 +25,12 @@ const checkSections = (sectionOne, sectionTwo) => {
   return false;
 }
 
-dataAsTuples.forEach(tuple => {
-  if(tuple[0][0] === tuple[1][0] && tuple[0][1] === tuple[1][1]) {
+dataAsTuples.forEach(tuples => {
+  if(tuples[0][0] === tuples[1][0] && tuples[0][1] === tuples[1][1]) {
     overlapSections++;
-  } else if(checkSections(tuple[0], tuple[1])) {
+  } else if(checkSections(tuples[0], tuples[1])) {
     overlapSections++;
-  } else if(checkSections(tuple[1], tuple[0])) {
+  } else if(checkSections(tuples[1], tuples[0])) {
     overlapSections++;
   }
 });
@@ -38,4 +38,31 @@ dataAsTuples.forEach(tuple => {
 console.log(overlapSections); //496 right answer
 
 //Part 2
+//Check for any overlap and increase counter if overlap detected for each pair.
+const checkSectionsAnyOverlap = (sectionOne, sectionTwo) => {
+  if(
+    (Number(sectionOne[0]) >= Number(sectionTwo[0]) && Number(sectionOne[0]) <= Number(sectionTwo[1])) || 
+    (Number(sectionOne[1]) >= Number(sectionTwo[0]) && Number(sectionOne[1]) <= Number(sectionTwo[1]))
+  ) {
+    return true;
+  }
+  return false;
+}
 
+
+let anyOverlaps = 0;
+dataAsTuples.forEach(tuples => {
+  if(tuples[0][0] === tuples[1][0] ||
+    tuples[0][0] === tuples[1][1] ||
+    tuples[0][1] === tuples[1][0] ||
+    tuples[0][1] === tuples[1][1]
+  ) {
+    anyOverlaps++;
+  } else if(checkSectionsAnyOverlap(tuples[0], tuples[1])) {
+    anyOverlaps++;
+  } else if(checkSectionsAnyOverlap(tuples[1], tuples[0])) {
+    anyOverlaps++;
+  }
+})
+
+console.log(anyOverlaps) //Answer is 847
