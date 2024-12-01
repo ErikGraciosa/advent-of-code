@@ -17,13 +17,7 @@ public class Day1 {
         try {
             // Read all lines from the file into a List
             List<String> lines = Files.readAllLines(Paths.get(filePath));
-
-            // Now you can work with the list
-            // For example, print each line
-            // for (String line : lines) {
-            //     System.out.println(line);
-            // }
-
+            
             // Example: Convert the list of strings to a list of integers
             List<Integer> numbers = lines.stream()
                                          .flatMap(line -> Arrays.stream(line.split("\\s+")))
@@ -42,12 +36,13 @@ public class Day1 {
             .map(line -> Integer.parseInt(line.split("\\s+")[1]))
             .collect(Collectors.toList());
 
+            //Sort the lists smallest first
             Collections.sort(firstColumnNumbers);
             Collections.sort(secondColumnNumbers);
             
             // Visual check
-            System.out.println(firstColumnNumbers);
-            System.out.println(secondColumnNumbers);
+            // System.out.println(firstColumnNumbers);
+            // System.out.println(secondColumnNumbers);
 
             //Part 1
             // // Find difference between the firstColumnNumbers and secondColumnNumbers
